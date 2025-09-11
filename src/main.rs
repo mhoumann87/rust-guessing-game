@@ -68,17 +68,17 @@ fn main() {
         /* let guess: u32 = guess.trim().parse().expect("Error with parse"); */
 
         // The parse() gives us an enum and we can handle errors using a match
-        
+
         // We can get rid of this line and put it in the match statement
         /* let mut guess: u32 = guess.trim().parse(); */
 
         let guess: u32 = match guess.trim().parse() {
             Ok(num) => num,
             Err(e) => {
-                println!("Error with parse, try again");
+                println!("Error with parse, try again. {e}");
                 continue;
             }
-        }
+        };
 
         // We can also use a match statement in Rust to run the game
         // We need to import `cpm::Ordering` from the std library
