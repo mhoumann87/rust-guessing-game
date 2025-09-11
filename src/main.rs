@@ -28,14 +28,6 @@ fn main() {
     println!("The number are {correct}");
     // We need a number, but we will store it as a string
     println!("Guess a number between 1 and 10");
-    let mut guess = String::new();
-
-    io::stdin()
-        .read_line(&mut guess)
-        .expect("Error reading input");
-
-    // We need to change the string to a number for it to work
-    let guess: u32 = guess.trim().parse().expect("Error with parse");
 
     // We can use an if / else expression (much like an if / else statement in other languages)
     /* if guess < correct {
@@ -59,13 +51,45 @@ fn main() {
     // And then we have to print the correct string
     println!("{}", message); */
 
-    // We can also use a match statement in Rust to run the game
-    let message = match guess.cmp(&correct) {
-        Ordering::Greater => "You guessed to high",
-        Ordering::Less => "You guessed to low",
-        Ordering::Equal => "You are correct",
-    };
+    // We want to make the game loop until we get the correct answer
+    // We use the `loop` in Rust, and that is an infinite loop, that you have to break out of
 
-    // And print the message
-    println!("{message}");
+    loop {
+        // We need to make the variable for each run, else the user input will add to the guess and not replace it, and that gives an error
+        let mut guess = String::new();
+        //And we need to ask for a new guess each time the game runs
+        io::stdin()
+            .read_line(&mut guess)
+            .expect("Error reading input");
+
+        // We need to change the string to a number for it to work
+
+        // This is an easy way to get the code running, but the expect gives way to an "panic" and we want to "kill" the chances of introducing errors in our code
+        /* let guess: u32 = guess.trim().parse().expect("Error with parse"); */
+
+        // The parse() gives us an enum and we can handle errors using a match
+        
+        // We can get rid of this line and put it in the match statement
+        /* let mut guess: u32 = guess.trim().parse(); */
+
+        let guess: u32 = match guess.trim().parse() {
+            Ok(num) => num,
+            Err(e) => {
+                println!("Error with parse, try again");
+                continue;
+            }
+        }
+
+        // We can also use a match statement in Rust to run the game
+        // We need to import `cpm::Ordering` from the std library
+        match guess.cmp(&correct) {
+            Ordering::Greater => println!("You guessed to high"),
+            Ordering::Less => println!("You guessed to low"),
+            Ordering::Equal => {
+                println!("You are correct");
+                // And here we want to break the loop
+                break;
+            }
+        };
+    }
 }
