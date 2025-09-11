@@ -25,7 +25,7 @@ fn main() {
     let mut rng = rand::rng();
     let correct = rng.random_range(1..=10);
     // Just to debug, we cheat and print the number
-    println!("The number are {correct}");
+    // println!("The number are {correct}");
     // We need a number, but we will store it as a string
     println!("Guess a number between 1 and 10");
 
